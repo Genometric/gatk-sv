@@ -10,6 +10,7 @@ workflow BAFFromShardedVCF {
     Array[File] vcfs
     File? vcf_header  # If provided, added to the beginning of each VCF
     Array[String] samples  # Can be a subset of samples in the VCF
+    Boolean replace_sample_ids
     String batch
     String sv_base_mini_docker
     String sv_pipeline_docker
@@ -23,6 +24,7 @@ workflow BAFFromShardedVCF {
       input:
         vcf = vcfs[idx],
         vcf_header = vcf_header,
+        replace_sample_ids = replace_sample_ids,
         samples = samples,
         batch = batch,
         shard = "~{idx}",
@@ -59,6 +61,7 @@ task GenerateBAF {
   input {
     File vcf
     File? vcf_header
+    Boolean replace_sample_ids
     Array[String] samples
     String batch
     String shard
@@ -84,7 +87,7 @@ task GenerateBAF {
     set -euo pipefail
     SAMPLES="~{write_lines(samples)}"
     bcftools view -M2 -v snps ~{if defined(vcf_header) then "<(cat ~{vcf_header} ~{vcf})" else vcf} \
-      | bcftools reheader -s $SAMPLES \
+      ~{if replace_sample_ids then "| bcftools reheader -s $SAMPLES" else ""} \
       | python /opt/sv-pipeline/02_evidence_assessment/02d_baftest/scripts/Filegenerate/generate_baf.py \
                --unfiltered --samples-list $SAMPLES \
       > BAF.~{batch}.shard-~{shard}.txt

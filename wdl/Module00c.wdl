@@ -65,6 +65,7 @@ workflow Module00c {
 
     # BAF Option #2, position-sharded VCFs
     Array[File]? snp_vcfs
+    Boolean replace_snp_vcf_sample_ids = false  # Reheaders vcfs with "samples" array (MUST BE SAME ORDER!)
     File? snp_vcf_header  # Only use if snp vcfs are unheadered
 
     # Condense read counts
@@ -271,6 +272,7 @@ workflow Module00c {
       input:
         vcfs = select_first([snp_vcfs]),
         vcf_header = snp_vcf_header,
+        replace_sample_ids = replace_snp_vcf_sample_ids,
         samples = samples,
         batch = batch,
         sv_base_mini_docker = sv_base_mini_docker,
