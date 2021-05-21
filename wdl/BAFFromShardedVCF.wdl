@@ -82,9 +82,11 @@ task GenerateBAF {
   command <<<
 
     set -euo pipefail
+    SAMPLES="~{write_lines(samples)}"
     bcftools view -M2 -v snps ~{if defined(vcf_header) then "<(cat ~{vcf_header} ~{vcf})" else vcf} \
+      | bcftools reheader -s $SAMPLES \
       | python /opt/sv-pipeline/02_evidence_assessment/02d_baftest/scripts/Filegenerate/generate_baf.py \
-               --unfiltered --samples-list ~{write_lines(samples)} \
+               --unfiltered --samples-list $SAMPLES \
       > BAF.~{batch}.shard-~{shard}.txt
 
   >>>
