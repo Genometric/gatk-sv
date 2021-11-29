@@ -201,5 +201,7 @@ jobs:
         run: |
           
           echo "test" >> ./input_values/dockers.json
+          git config --global user.name 'aaaaaaaaaaaaa'
+          git config --global user.email 'aaaaaaaaaaaaa@users.noreply.github.com'
           git commit -am "Automated report"
           git push
