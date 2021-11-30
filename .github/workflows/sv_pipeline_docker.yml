@@ -198,7 +198,7 @@ jobs:
         uses: google-github-actions/setup-gcloud@master
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_GCR_SA_KEY }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
           # Exports the path to Default Application Credentials 
           # as the environment variable GOOGLE_APPLICATION_CREDENTIALS 
           # to be available in later steps. Google Cloud services 
