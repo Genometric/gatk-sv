@@ -194,10 +194,28 @@ jobs:
           cd ./scripts/docker/
           # python build_docker.py --targets ${{ steps.target_images.outputs.TARGETS }} --image-tag ${{ steps.image_tag.outputs.IMAGE_TAG }}
 
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_GCR_SA_KEY }}
+          # Exports the path to Default Application Credentials 
+          # as the environment variable GOOGLE_APPLICATION_CREDENTIALS 
+          # to be available in later steps. Google Cloud services 
+          # automatically use this environment variable to find credentials.
+          # xref: https://github.com/google-github-actions/setup-gcloud#inputs
+          export_default_credentials: true
+          
+      - name: Use gcloud CLI
+        run: gcloud info
+        
+      - name: TEST
+        run: |
+          gcloud auth configure-docker -q
+        
       - name: Update dockers.json
         if: github.event_name != 'pull_request'
-        run: |
-          
+        run: |          
           echo "test" >> ./input_values/dockers.json
           git config --global user.name 'aaaaaaaaaaaaa'
           git config --global user.email 'aaaaaaaaaaaaa@users.noreply.github.com'
