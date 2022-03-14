@@ -1,5 +1,6 @@
 # This is the base dockerfile for the GATK SV pipeline that adds dependencies
 # for the sv-pipeline, sv-pipeline-qc, and sv-pipeline-rdtest
+#
 
 # NB: The conda installation here overrides samtools 1.9 and bcftools 1.9 with versions 1.7 due to
 # a pysam dependency.
