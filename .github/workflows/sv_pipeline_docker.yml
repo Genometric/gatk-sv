@@ -207,3 +207,4 @@ jobs:
           git config --global user.email '101641599+gatk-sv-bot@users.noreply.github.com'
           git commit -am "Update dockers.json with newly built and published images."
           git push
+
