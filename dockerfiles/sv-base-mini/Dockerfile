@@ -1,5 +1,6 @@
 # This is the barebones image for the GATK SV pipeline that includes only
 # some basic bioinformatics utilities.
+#
 
 ############### stage 0: build samtools and bcftools from source
 FROM ubuntu:18.04
