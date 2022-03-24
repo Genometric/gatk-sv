@@ -132,7 +132,10 @@ jobs:
       - name: Run build_docker.py
         run: |
           cd ./scripts/docker/
-          python build_docker.py --base-git-commit ${{ needs.build_args_job.outputs.base_sha }} --current-git-commit ${{ needs.build_args_job.outputs.head_sha }} --image-tag ${{ needs.build_args_job.outputs.image_tag }}
+          python build_docker.py \
+            --base-git-commit ${{ needs.build_args_job.outputs.base_sha }} \
+            --current-git-commit ${{ needs.build_args_job.outputs.head_sha }} \
+            --image-tag ${{ needs.build_args_job.outputs.image_tag }}
 
   publish_job:
     # This job first configures gcloud with the authentication of a
