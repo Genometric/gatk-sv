@@ -139,7 +139,7 @@ jobs:
         run: |
           cd ./scripts/docker/
           python build_docker.py \
-            --targets sv-base-mini
+            --targets sv-base-mini \
             # --base-git-commit ${{ needs.build_args_job.outputs.base_sha }} \
             # --current-git-commit ${{ needs.build_args_job.outputs.head_sha }} \
             --image-tag ${{ needs.build_args_job.outputs.image_tag }}
@@ -207,7 +207,7 @@ jobs:
         id: build_and_publish
         run: |
           python ./scripts/docker/build_docker.py \
-            --targets sv-base-mini
+            --targets sv-base-mini \
             # --base-git-commit ${{ needs.build_args_job.outputs.base_sha }} \
             # --current-git-commit ${{ needs.build_args_job.outputs.head_sha }} \
             --gcr-project ${{ secrets.GCP_PROJECT_ID }}/gatk-sv \
