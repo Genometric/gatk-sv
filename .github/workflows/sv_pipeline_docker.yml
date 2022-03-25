@@ -139,8 +139,9 @@ jobs:
         run: |
           cd ./scripts/docker/
           python build_docker.py \
-            --base-git-commit ${{ needs.build_args_job.outputs.base_sha }} \
-            --current-git-commit ${{ needs.build_args_job.outputs.head_sha }} \
+            --targets sv-base-mini
+            # --base-git-commit ${{ needs.build_args_job.outputs.base_sha }} \
+            # --current-git-commit ${{ needs.build_args_job.outputs.head_sha }} \
             --image-tag ${{ needs.build_args_job.outputs.image_tag }}
 
   publish_job:
@@ -206,8 +207,9 @@ jobs:
         id: build_and_publish
         run: |
           python ./scripts/docker/build_docker.py \
-            --base-git-commit ${{ needs.build_args_job.outputs.base_sha }} \
-            --current-git-commit ${{ needs.build_args_job.outputs.head_sha }} \
+            --targets sv-base-mini
+            # --base-git-commit ${{ needs.build_args_job.outputs.base_sha }} \
+            # --current-git-commit ${{ needs.build_args_job.outputs.head_sha }} \
             --gcr-project ${{ secrets.GCP_PROJECT_ID }}/gatk-sv \
             --image-tag ${{ needs.build_args_job.outputs.image_tag }}
           CHANGED=$(git diff --quiet ./inputs/values/dockers.json || echo True)
