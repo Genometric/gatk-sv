@@ -219,3 +219,4 @@ jobs:
           git commit -am "Update dockers.json with newly built and published images."
           git pull
           git push
+
