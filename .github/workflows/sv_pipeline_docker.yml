@@ -222,7 +222,3 @@ jobs:
           git pull --no-rebase
           git commit -am "Update docker images list, triggered by "${COMMIT_SHA::8}
           git push
-
-
-
-
