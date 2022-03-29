@@ -221,7 +221,3 @@ jobs:
           # git pull --no-rebase
           git pull --rebase origin dummy_master_4
           git push
-     
-     
-     
-     
