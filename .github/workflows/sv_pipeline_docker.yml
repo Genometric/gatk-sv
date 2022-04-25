@@ -207,7 +207,8 @@ jobs:
           python ./scripts/docker/build_docker.py \
             --targets sv-base-mini \
             --gcr-project ${{ secrets.GCP_PROJECT_ID }}/gatk-sv \
-            --image-tag ${{ needs.build_args_job.outputs.image_tag }}
+            --image-tag ${{ needs.build_args_job.outputs.image_tag }} \
+            --skip-dependent-images
           CHANGED=$(git diff --quiet ./inputs/values/dockers.json || echo True)
           echo "::set-output name=CHANGED::$CHANGED"
 
