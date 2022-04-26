@@ -161,6 +161,7 @@ jobs:
         with:
           # See the comment on build_args_job.
           fetch-depth: 0
+          token: ${{ secrets.BOT_PAT }}
 
       - name: Setup Python
         uses: actions/setup-python@v2
