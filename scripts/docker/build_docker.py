@@ -743,3 +743,9 @@ def main(arguments: List[str]):
 
 if __name__ == "__main__":
     main(sys.argv)
+    
+    print("\n\n\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+    import os
+    print(os.environ)
+    print("%%%%%%%%%%%%%%%%%%%%%%%")
+    print(os.environ['HOME'])
