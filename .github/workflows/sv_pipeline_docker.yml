@@ -134,7 +134,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install termcolor
+          echo "--------------- test -----------------"
           echo "${{ secrets.GCP_PROJECT_ID }}"
+          echo ${{ secrets.GCP_PROJECT_ID }}
 
       - name: Run build_docker.py
         run: |
