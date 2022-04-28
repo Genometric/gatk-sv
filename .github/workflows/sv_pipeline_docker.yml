@@ -137,6 +137,7 @@ jobs:
           echo "--------------- test -----------------"
           echo "${{ secrets.GCP_PROJECT_ID }}"
           echo ${{ secrets.GCP_PROJECT_ID }}
+          echo "$secrets.GCP_PROJECT_ID"
 
       - name: Run build_docker.py
         run: |
