@@ -144,7 +144,8 @@ jobs:
           cd ./scripts/docker/
           python build_docker.py \
             --targets sv-base-mini \
-            --image-tag ${{ needs.build_args_job.outputs.image_tag }}
+            --image-tag ${{ needs.build_args_job.outputs.image_tag }} \
+            --prune-after-each-image
 
   publish_job:
     # This job first configures gcloud with the authentication of a
@@ -165,6 +166,7 @@ jobs:
         with:
           # See the comment on build_args_job.
           fetch-depth: 0
+          # Authenticates git using the bot's access token.
           token: ${{ secrets.BOT_PAT }}
 
       - name: Setup Python
@@ -217,7 +219,7 @@ jobs:
             --targets sv-base-mini \
             --gcr-project ${{ secrets.GCP_PROJECT_ID }}/gatk-sv \
             --image-tag ${{ needs.build_args_job.outputs.image_tag }} \
-            --skip-dependent-images
+            --prune-after-each-image
           CHANGED=$(git diff --quiet ./inputs/values/dockers.json || echo True)
           echo "::set-output name=CHANGED::$CHANGED"
 
@@ -228,6 +230,5 @@ jobs:
           git config --global user.name 'gatk-sv-bot'
           git config --global user.email '101641599+gatk-sv-bot@users.noreply.github.com'
           git commit ./inputs/values/dockers.json -m "Update docker images list, triggered by "${COMMIT_SHA::8}
-          # git pull --no-rebase
           git pull --rebase origin dummy_master_4
           git push
