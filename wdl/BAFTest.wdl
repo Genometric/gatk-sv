@@ -6,7 +6,7 @@ import "BAFTestChromosome.wdl" as bafc
 workflow BAFTest {
 
   input {
-    File vcf
+    File vcf________TEST
     File baf_metrics
     String batch
     Array[String] samples
