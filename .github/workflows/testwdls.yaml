@@ -4,11 +4,13 @@ on:
   push:
     branches:
       - master
+      - test_miniwdl
     paths:
       - 'wdl/**'
   pull_request:
     branches:
       - master
+      - test_miniwdl
     paths:
       - 'wdl/**'
 
