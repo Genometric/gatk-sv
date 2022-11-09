@@ -4,11 +4,13 @@ on:
   push:
     branches:
       - master
+      - dummy-master-6
     paths:
       - 'wdl/**'
   pull_request:
     branches:
       - master
+      - dummy-master-6
     paths:
       - 'wdl/**'
 
