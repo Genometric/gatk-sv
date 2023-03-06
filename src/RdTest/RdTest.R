@@ -9,7 +9,7 @@
 # Update June 2016 (clean modules, smaller windows, multiallelic binning, denovo visual)
 # Update October 2015 (load sample set prior)
 # Update August 2015 (for incorporation into Holmes liWGS-SV 1.0)
-#-------------------------
+#-----------------------
 
 #Print traceback on error
 options(warn = 2)
