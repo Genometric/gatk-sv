@@ -727,6 +727,7 @@ def __parse_arguments(args_list: List[str]) -> argparse.Namespace:
         help="Tag to be applied to all images being built."
     )
 
+
     parser.add_argument(
         # flag to turn off git protection (default mode is refusing to build when there are untracked files and/or
         # uncommitted changes)
