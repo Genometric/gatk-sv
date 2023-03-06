@@ -4,6 +4,7 @@ import "Structs.wdl"
 import "CleanVcf5.wdl" as cleanvcf5
 import "TasksMakeCohortVcf.wdl" as tmc
 
+
 workflow CalcAF {
   input {
     File vcf

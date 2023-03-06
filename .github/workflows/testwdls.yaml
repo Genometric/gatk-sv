@@ -4,11 +4,13 @@ on:
   push:
     branches:
       - main
+      - test_azure_registry_2
     paths:
       - 'wdl/**'
   pull_request:
     branches:
       - main
+      - test_azure_registry_2
     paths:
       - 'wdl/**'
 

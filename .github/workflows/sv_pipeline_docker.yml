@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - test_azure_registry_2
     paths:
       - 'src/**'
       - 'dockerfiles/**'
@@ -12,6 +13,7 @@ on:
   pull_request:
     branches:
       - main
+      - test_azure_registry_2
     paths:
       - 'src/**'
       - 'dockerfiles/**'

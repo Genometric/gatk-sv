@@ -2,9 +2,9 @@ name: Test Python Scripts
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, test_azure_registry_2 ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, test_azure_registry_2 ]
 
 jobs:
   linting:
