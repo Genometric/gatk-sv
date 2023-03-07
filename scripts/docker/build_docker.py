@@ -14,7 +14,7 @@ from typing import Union, Iterable, Mapping, Optional, List, Tuple, Set, Dict
 from types import MappingProxyType
 
 program_operation_description = """
-The high-level view of how build_docker.py works: TEST
+The high-level view of how build_docker.py works:
     1) Primary target selection. This is the images we specifically
        want to re-build. Determined either:
         a) manually (specified via --targets), or
