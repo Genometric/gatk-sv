@@ -22,7 +22,7 @@ options(error = function() {
   }
 })
 
-#Loads required packages; installs if necessary
+#Loads required packages; installs if necessary--
 RPackages <- c("optparse", "plyr", "MASS", "zoo","methods","metap", "e1071", "fpc", "BSDA", "DAAG", "pwr", "reshape", "perm", "hash")
 for (i in RPackages)
 {
