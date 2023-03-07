@@ -9,7 +9,7 @@
 # Update June 2016 (clean modules, smaller windows, multiallelic binning, denovo visual)
 # Update October 2015 (load sample set prior)
 # Update August 2015 (for incorporation into Holmes liWGS-SV 1.0)
-#---------------------
+#--------------------
 
 #Print traceback on error
 options(warn = 2)
@@ -123,15 +123,15 @@ if ( is.null(bedlinecount)) {
   if (opt$denovo==FALSE) {
     if(!file.exists(paste(opt$outFolder,opt$outputname,".metrics",sep=""))) {
       ##write header##
-      write.table(matrix(c("chr","Start","End","CNVID","SampleIDs","Type","Median_Power","P","2ndMaxP","Model","Median_Rank","Median_Separation"),nrow=1),paste(opt$outFolder, opt$outputname, ".metrics", sep = ""),quote=FALSE,row.names=FALSE,col.names=FALSE,sep= "\t")  
-    } 
+      write.table(matrix(c("chr","Start","End","CNVID","SampleIDs","Type","Median_Power","P","2ndMaxP","Model","Median_Rank","Median_Separation"),nrow=1),paste(opt$outFolder, opt$outputname, ".metrics", sep = ""),quote=FALSE,row.names=FALSE,col.names=FALSE,sep= "\t")
+    }
   } else {
     if(!file.exists(paste(opt$outFolder, opt$outputname,".denovo",sep=""))) {
       ##write header for de novo##
       if (opt$quartetDenovo==TRUE) {
-        write.table(matrix(c("chr","Start","End","CNVID","Type","Family","AffectedMember","Pro.P","Sib.P","Fa.P","Mo.P","Pro.secMaxP","Sib.secMaxP","Fa.secMaxP","Mo.secMaxP","Pro.Sep","Sib.Sep","Fa.Sep","Mo.Sep","Pro.rank","Sib.rank","Fa.rank","Mo.rank"),nrow=1),paste(opt$outFolder, opt$outputname, ".denovo", sep = ""),quote=FALSE,row.names=FALSE,col.names=FALSE,sep= "\t")  
+        write.table(matrix(c("chr","Start","End","CNVID","Type","Family","AffectedMember","Pro.P","Sib.P","Fa.P","Mo.P","Pro.secMaxP","Sib.secMaxP","Fa.secMaxP","Mo.secMaxP","Pro.Sep","Sib.Sep","Fa.Sep","Mo.Sep","Pro.rank","Sib.rank","Fa.rank","Mo.rank"),nrow=1),paste(opt$outFolder, opt$outputname, ".denovo", sep = ""),quote=FALSE,row.names=FALSE,col.names=FALSE,sep= "\t")
       } else {   write.table(matrix(c("chr","Start","End","CNVID","SampleIDs","Type","Median_Power","P","2ndMaxP","Model","Median_Rank","Median_Separation"),nrow=1),paste(opt$outFolder, opt$outputname, ".denovo", sep = ""),quote=FALSE,row.names=FALSE,col.names=FALSE,sep= "\t")   }
-    } 
+    }
   }
   quit()
 }
@@ -147,7 +147,7 @@ if (is.null(opt$bed) || is.null(opt$coveragefile)) {
 if (substr(opt$outFolder, nchar(opt$outFolder), nchar(opt$outFolder) + 1) !=
     "/") {
   opt$outFolder = paste(opt$outFolder, "/", sep = "")
-} 
+}
 
 ##check bed##
 #Loads regions: chr start end locusID sampleID1,sampleID2,...
@@ -442,10 +442,10 @@ loadData <- function(chr, start, end, coveragefile, medianfile, bins, verylargev
     #Approximates rebinned per-sample medians (approximated for speed & memory)
     allnorm[which(allnorm == 0)] <- 1
     allnorm <- compression * allnorm
-    
+
     #Replace zero values with 1 for handling normalization
     cov1[cov1 == 0] <- 1
-    
+
     ##restrict bins to those with unique mapping##
     cov1 <- removeExcludedBinCovBins(chr, cov1, end, poorbincov, start)
 
@@ -464,7 +464,7 @@ loadData <- function(chr, start, end, coveragefile, medianfile, bins, verylargev
 
     #Adds sample medians to df
     res0<-rbind((res), allnorm)
-    
+
     #Scale each col within that sample
     res1<- apply(res0,2,
                  function(vals){
@@ -488,12 +488,12 @@ specified_cnv <- function(cnv_matrix, sampleIDs, cnvID, chr, start, end, cnvtype
     genotype_matrix <- cbind(CNV, t(matrix(seq(1, nrow(cnv_matrix)))))
     colnames(genotype_matrix) <- c("ID", "Chr", "Start", "End", rownames(cnv_matrix))
     samplenames <- colnames(as.matrix(genotype_matrix))
-    columnswithsamp <- which(colnames(genotype_matrix) %in% unlist(strsplit(as.character(sampleIDs),split=","))) 
+    columnswithsamp <- which(colnames(genotype_matrix) %in% unlist(strsplit(as.character(sampleIDs),split=",")))
     if (length(columnswithsamp)==0) {
       ##"WARNING: No samples in coverage matrix for comparision check exclude/include lists"##
       return ("No_Samples")
     }
-    
+
     ##create genotype matrix##
     if (toupper(cnvtype) == "DEL")
     {
@@ -507,7 +507,7 @@ specified_cnv <- function(cnv_matrix, sampleIDs, cnvID, chr, start, end, cnvtype
       ##make sure first four columns are not modified##
       columnswithsamp <- c(columnswithsamp, 1, 2, 3, 4)
       genotype_matrix[1,-columnswithsamp] = 2
-    } 
+    }
     return(genotype_matrix)
   }
 
@@ -526,15 +526,15 @@ kMeans <-function(cnv_matrix,chr,start,end,cnvID,Kinterval,Kintervalstart,Kinter
     if (length(samplenames) > 100) {
       totalcopystate <- 100
     } else{
-      totalcopystate <- length(samplenames)-1 
+      totalcopystate <- length(samplenames)-1
     }
     for (i in seq(Kintervalstart, Kintervalend, Kinterval)) {
-      count=count+1  
+      count=count+1
       ##Need to make sure there are not more copy states than samples (max at a copy state of 100)##
       ##Run Kmeans##
       k <-kmeans(
         cnv_matrix,
-        ##center assignment##    
+        ##center assignment##
         matrix(rep(seq(0, i*totalcopystate , by = i),ncol(cnv_matrix)),ncol = ncol(cnv_matrix)),
         iter.max = 100,
         algorithm = "Forgy"
@@ -578,17 +578,17 @@ kMeans <-function(cnv_matrix,chr,start,end,cnvID,Kinterval,Kintervalstart,Kinter
     Kclustercount=matrix(c(KclusterAsGenotype[,1:4],length(unique(KclusterAsGenotype[,5:ncol(KclusterAsGenotype)]))),nrow=1)
     colnames(Kclustercount)<-c("ID","Chr","Start","End","N_CopyStates")
     if(file.exists(paste(outFolder,outputname,".clustercount",sep=""))) {
-      #write.table(KclusterAsGenotype,paste(outFolder,outputname,".K",sep=""),quote=FALSE,append=TRUE,row.names=FALSE,col.names=FALSE,sep= "\t")  
-      write.table(Kclustercount,paste(outFolder,outputname,".clustercount",sep=""),quote=FALSE,append=TRUE,row.names=FALSE,col.names=FALSE,sep= "\t")  
-    } else { 
-      #write.table(KclusterAsGenotype,paste(outFolder,outputname,".K",sep=""),quote=FALSE,row.names=FALSE,sep= "\t")  
-      write.table(Kclustercount,paste(outFolder,outputname,".clustercount",sep=""),quote=FALSE,row.names=FALSE,sep= "\t")  
+      #write.table(KclusterAsGenotype,paste(outFolder,outputname,".K",sep=""),quote=FALSE,append=TRUE,row.names=FALSE,col.names=FALSE,sep= "\t")
+      write.table(Kclustercount,paste(outFolder,outputname,".clustercount",sep=""),quote=FALSE,append=TRUE,row.names=FALSE,col.names=FALSE,sep= "\t")
+    } else {
+      #write.table(KclusterAsGenotype,paste(outFolder,outputname,".K",sep=""),quote=FALSE,row.names=FALSE,sep= "\t")
+      write.table(Kclustercount,paste(outFolder,outputname,".clustercount",sep=""),quote=FALSE,row.names=FALSE,sep= "\t")
     }
-  
+
     return(KclusterAsGenotype)
   }
 
-#Seperate Samples into either Control or Treat group 
+#Seperate Samples into either Control or Treat group
 #Number of bins assessed is dependent on SV sample size
 create_groups <- function(genotype_matrix, cnv_matrix)
 {
@@ -633,8 +633,8 @@ powerCalc <- function(genotype_matrix, cnv_matrix)
 }
 
 #OneSamplezscore to test single sample against everyone else; Can specifiy list of samples to exclude from analysis which may have CNV##
-#samples exclude should be comma delimited list 
-#singlesample being assessed must not be normal(cn=2) in the genotype matrix### 
+#samples exclude should be comma delimited list
+#singlesample being assessed must not be normal(cn=2) in the genotype matrix###
 onesamplezscore.median <- function(genotype_matrix,cnv_matrix,singlesample,cnvtype)
 {
   #Call Treat (have SV) and Control Groups
@@ -649,7 +649,7 @@ onesamplezscore.median <- function(genotype_matrix,cnv_matrix,singlesample,cnvty
   } else{
     ztest.p <- pnorm((mean(Control) - Treat) / sd(Control))
   }
-  ##Find the secondest worst p-value and record as an assement metric## 
+  ##Find the secondest worst p-value and record as an assement metric##
   plist <- c()
   i = 1
   for (column in a:b)
@@ -690,7 +690,7 @@ twosamplezscore.median <- function(genotype_matrix,cnv_matrix,cnvtype)
   if (toupper(cnvtype) == "DEL") {
     P_object <- permTS(Control, Treat, alternative = "greater", method = 'pclt')$p.value
   } else{ P_object <- permTS(Control, Treat, alternative = "less", method = 'pclt')$p.value }
-  
+
   ##Find the secondest worst p-value and record as an assement metric#
   plist<-c()
   i=1
@@ -716,7 +716,7 @@ twosamplezscore.median <- function(genotype_matrix,cnv_matrix,cnvtype)
   }
   output<-list(P_object, mySecondMaxP)
   names(output)<-c("Pvalue","Pmax_2nd")
-  return(output)  
+  return(output)
 }
 
 ##Provide a depth based rank of the sample##
@@ -783,33 +783,33 @@ samprank_sep <- function(genotype_matrix,cnv_matrix,cnvtype,sample=NULL)
   return(output)
 }
 
-##Plot of intensities across cohorts## 
+##Plot of intensities across cohorts##
 plotJPG <- function(genotype_matrix,cnv_matrix,chr,start,end,cnvID,sampleIDs,outputname,cnvtype,plotK,plotfamily,famfile,outFolder)
 {
   samplesPrior <- unlist(strsplit(as.character(sampleIDs),","))
   samplenames<-colnames(genotype_matrix)
-  
+
   ##If only one bin##
   if(ncol(cnv_matrix)==1)
   {cnv_matrix<-cbind(cnv_matrix,cnv_matrix[,1])}
-  
+
   ##File Output##
   jpeg(paste(outFolder,chr,"_",start,"_",end,"_",samplesPrior[1],"_",cnvID,"_",outputname,".jpg",sep=""),res=300, width=1800, height=1800)
-  
+
   ##concatenate sample IDs if necessary##
   sampleIDs<-paste(sampleIDs,collapse=",")
-  
+
   ##Limits number of sample Ids due to size limiations for readablity
   if(nchar(as.character(sampleIDs))>44){sampleIDsToDisplay<-paste(substr(sampleIDs,1,44),"...",sep="")}else{sampleIDsToDisplay<-sampleIDs}
   ##Title line 1##
   main1=paste(chr,":",prettyNum(start,big.mark=","),"-",prettyNum(end,big.mark=",")," (hg19)",sep="")
-  
+
   ###Add proper size abbr. for larger events
   size=end-start
   if(size<10000){mysize<-prettyNum(paste("(",size," bp)",sep=""), big.mark = ",")}
   if(size>=10000){mysize<-prettyNum(paste("(",signif(size/1000,3)," kb)",sep=""), big.mark = ",")}
   if(size>=1000000){mysize<-prettyNum(paste("(",signif(size/1000000,3)," Mb)",sep=""), big.mark = ",")}
-  
+
   ##Formating##
   main2 = paste(sampleIDsToDisplay, " ", mysize, sep ="")
   mainText = paste(main1, "\n", main2, sep = "")
@@ -823,13 +823,13 @@ plotJPG <- function(genotype_matrix,cnv_matrix,chr,start,end,cnvID,sampleIDs,out
     maxcexXh = 2.5
   }
   par(mar = c(6.1, 6.1, 4.1, 2.1))
-  
+
   ##Create matrix for plotting###
-  columnstoshift <- which(rownames(cnv_matrix) %in% samplesPrior) 
+  columnstoshift <- which(rownames(cnv_matrix) %in% samplesPrior)
   ##Place Samples with CNV on top###
   plot_cnvmatrix<-cbind(t(cnv_matrix)[,-columnstoshift],t(cnv_matrix)[,columnstoshift])
   ##column shift diffrent for genotype matrix because cnvID,chr,start,end
-  columnstoshift <- which(colnames(genotype_matrix) %in% unlist(strsplit(as.character(samplesPrior),split=","))) 
+  columnstoshift <- which(colnames(genotype_matrix) %in% unlist(strsplit(as.character(samplesPrior),split=",")))
   plot_colormatrix<-cbind(matrix(genotype_matrix[,-columnstoshift],nrow=1),matrix(genotype_matrix[,columnstoshift],nrow=1))
   endcolnormal<-ncol(plot_colormatrix)-(length(samplesPrior))
   plot_linematrix<-cbind(matrix(genotype_matrix[,-columnstoshift],nrow=1),matrix(genotype_matrix[,columnstoshift],nrow=1))
@@ -838,7 +838,7 @@ plotJPG <- function(genotype_matrix,cnv_matrix,chr,start,end,cnvID,sampleIDs,out
   if ( plotK == TRUE ) {
     #keep plot_colormatrix
     main1=paste(chr,":",prettyNum(start,big.mark=","),"-",prettyNum(end,big.mark=",")," (hg19)",sep="")
-    mainText = paste(main1, "\n", "Copy Estimate"," ", mysize, sep = "")  
+    mainText = paste(main1, "\n", "Copy Estimate"," ", mysize, sep = "")
     plot_linematrix[,5:ncol(plot_linematrix)]<-"0.5"
   } else if (toupper(cnvtype) == "DEL") {
     plot_colormatrix[, (endcolnormal + 1):ncol(plot_colormatrix)] <- "red"
@@ -850,8 +850,8 @@ plotJPG <- function(genotype_matrix,cnv_matrix,chr,start,end,cnvID,sampleIDs,out
     plot_colormatrix[,5:endcolnormal]<-"grey"
     plot_linematrix[, (endcolnormal + 1):ncol(plot_colormatrix)] <- "3"
     plot_linematrix[,5:endcolnormal]<-"0.5"
-  } 
-  
+  }
+
   ##Plotting Command##
   plot(as.zoo(plot_cnvmatrix),
     plot.type = "single",
@@ -862,7 +862,7 @@ plotJPG <- function(genotype_matrix,cnv_matrix,chr,start,end,cnvID,sampleIDs,out
     xaxt = 'n',
     ann = FALSE,
     ylab = "Intensity",
-    lwd = plot_linematrix[1, 5:ncol(plot_linematrix)] 
+    lwd = plot_linematrix[1, 5:ncol(plot_linematrix)]
   )
   mtext(
     side = 1,
@@ -895,7 +895,7 @@ plotJPG <- function(genotype_matrix,cnv_matrix,chr,start,end,cnvID,sampleIDs,out
       family[which(family[, 1] %in% includedfams &
                      family[, 3] == 0 &
                      family[, 4] == 0 &  family[, 5] == 2 & family[, 6] == 1) , 2])
-    
+
     text(c(1:10), as.numeric(cnv_matrix[proband_list,]), "p", cex = 1)
     text(c(1:10), as.numeric(cnv_matrix[sib_list,]), "s", cex = 1)
     text(c(1:10), as.numeric(cnv_matrix[father_list,]), "fa", cex = 1)
@@ -933,7 +933,7 @@ plotJPG <- function(genotype_matrix,cnv_matrix,chr,start,end,cnvID,sampleIDs,out
 ##Provide genotype for VCF format##
 genotype<- function(cnv_matrix,genotype_matrix,refgeno,chr,start,end,cnvID,sampleIDs,cnvtype,outFolder,outputname,plot_cnvmatrix)
 {
- ##get depth intensities##  
+ ##get depth intensities##
  cnv_median <-c(create_groups(genotype_matrix, cnv_matrix)$Control,create_groups(genotype_matrix, cnv_matrix)$Treat)
  ##order by names so same geno output for each variant##
  cnv_median<-cnv_median[order(names(cnv_median))]
@@ -954,9 +954,9 @@ if (max_medianstate>cutoffs[length(cutoffs)]) {
     copystate[which(cnv_median <= (i*0.5)+0.25 & cnv_median > prev_cutoff) ] <- i
     prev_cutoff=(i*0.5)+0.25
     cutoff_table[i+1,]<-c(i,i*0.5,0,(i*0.5)+0.25)
-  } 
-}  
- 
+  }
+}
+
 copystate.table<-table(unlist(copystate))
 
 max_state<-names(copystate.table[order(copystate.table,decreasing=TRUE)][1])
@@ -989,7 +989,7 @@ if (opt$geno_adjust==TRUE)
      copystate[which(cnv_median <= (i*0.5)+0.25 & cnv_median > prev_cutoff) ] <- i
      prev_cutoff=(i*0.5)+0.25
      cutoff_table[i+1,]<-c(i,i*0.5,0,(i*0.5)+0.25)
-   } 
+   }
  }
 }
 
@@ -1007,7 +1007,7 @@ meanstatelow[which(meanstatelow<0)]<-1
 maxrow=dim(cutoff_table)[1]
 ##add 1 to maxrow because table starts at 0##
 cutoff_table[maxrow+1,]<-c(maxrow,maxrow*0.5,0,(maxrow*0.5)+0.25)
-  
+
 for (i in  0:(dim(cutoff_table)[1]-2)) {
   mean<-cutoff_table[which(cutoff_table[,1]==i),2]
   meanstatelow[which(meanstatelow==i)]<-mean
@@ -1066,11 +1066,11 @@ write.table(matrix(c(chr, start, end, cnvID,gq_var),nrow=1),paste(outFolder, out
 
 if(!file.exists(paste(outFolder,outputname,".geno",sep=""))) {
    ##write header##
-   write.table(matrix(c("chr","start","end","cnvID",names(copystate)),nrow=1),paste(outFolder, outputname, ".geno", sep = ""),quote=FALSE,row.names=FALSE,col.names=FALSE,sep= "\t")  
- } 
+   write.table(matrix(c("chr","start","end","cnvID",names(copystate)),nrow=1),paste(outFolder, outputname, ".geno", sep = ""),quote=FALSE,row.names=FALSE,col.names=FALSE,sep= "\t")
+ }
  write.table(matrix(c(chr, start, end, cnvID,copystate),nrow=1),paste(outFolder, outputname, ".geno", sep = ""),
              quote = FALSE,col.names = FALSE, row.names = FALSE,append=TRUE,sep= "\t")
- 
+
  ##plot genotypes##
  if (opt$plotK==TRUE) {
    ##plotting expect copy state >1 than predicted because kmeans code, this is corrected in final plot##
@@ -1078,11 +1078,11 @@ if(!file.exists(paste(outFolder,outputname,".geno",sep=""))) {
    colnames(plot_matrix)<-colnames(genotype_matrix)
    plotJPG(plot_matrix,plot_cnvmatrix,chr,start,end,cnvID,sampleIDs,outputname,cnvtype,plotK=TRUE,plotfamily=FALSE,famfile,outFolder)
  }
- 
+
 }
 
 runRdTest<-function(bed)
-{ 
+{
   chr<-as.character(bed[1])
   start<-as.numeric(bed[2])
   end<-as.numeric(bed[3])
@@ -1091,7 +1091,7 @@ runRdTest<-function(bed)
   sampleOrigIDs<-as.character(bed[5])
   cnvtype<-as.character(bed[6])
   cnvtypeOrigIDs<-as.character(bed[6])
-  
+
   ##Assign input values from opt list to variable##
   for (names in names(opt))
   {
@@ -1102,18 +1102,18 @@ runRdTest<-function(bed)
     cat(paste(chr,":",start,"-",end,":Using new large event subsampling\n",sep=""))
   } else if (end - start  > sizefilter) {
     cat(paste(chr,":",start,"-",end,":Large size so subsampling in middle\n",sep=""))
-    center=(start + end) / 2 
+    center=(start + end) / 2
     start = round(center - (sizefilter/2))
     end = round(center + (sizefilter/2))
-  } 
-  
+  }
+
   if (end - start <= 0 )
   {
-   end=start+1 
-  }  
+   end=start+1
+  }
   ##Make sure region is in tabix##
-  
-  
+
+
   ##Get Intesity Data##
   if (exists("poorbincov")) {
     loadResult <-loadData(chr, start, end, coveragefile,medianfile,bins,
@@ -1144,7 +1144,7 @@ runRdTest<-function(bed)
       }
       write.table(matrix(c(chr, start, end, cnvID,dotlist),nrow=1),paste(outFolder, outputname, ".median_geno", sep = ""),
                   quote = FALSE,col.names = FALSE, row.names = FALSE,append=TRUE,sep= "\t")
-      
+
       ##write GQ##
       if(!file.exists(paste(outFolder,outputname,".gq",sep=""))) {
         ##write header##
@@ -1152,7 +1152,7 @@ runRdTest<-function(bed)
       }
       write.table(matrix(c(chr, start, end, cnvID,dotlist),nrow=1),paste(outFolder, outputname, ".gq", sep = ""),
                   quote = FALSE,col.names = FALSE, row.names = FALSE,append=TRUE,sep= "\t")
-      
+
       ##write variant GQ##
       if(!file.exists(paste(outFolder,outputname,".vargq",sep=""))) {
         ##write header##
@@ -1160,19 +1160,19 @@ runRdTest<-function(bed)
       }
       write.table(matrix(c(chr, start, end, cnvID,"."),nrow=1),paste(outFolder, outputname, ".vargq", sep = ""),
                   quote = FALSE,col.names = FALSE, row.names = FALSE,append=TRUE,sep= "\t")
-      
+
       ##write genotype##
-      
+
       if(!file.exists(paste(outFolder,outputname,".geno",sep=""))) {
         ##write header##
         write.table(matrix(c("chr","start","end","cnvID",samplesIncludeList),nrow=1),paste(outFolder, outputname, ".geno", sep = ""),quote=FALSE,row.names=FALSE,col.names=FALSE,sep= "\t")
-      } 
+      }
       write.table(matrix(c(chr, start, end, cnvID,dotlist),nrow=1),paste(outFolder, outputname, ".geno", sep = ""),
                   quote = FALSE,col.names = FALSE, row.names = FALSE,append=TRUE,sep= "\t")
     }
     return(c(chr,start,end,cnvID,sampleOrigIDs,cnvtypeOrigIDs,"coverage_failure","coverage_failure","coverage_failure","coverage_failure","coverage_failure","coverage_failure"))
   }
-  
+
   ##remove excluded or included samples from sampleIDs lists###
   idsforsearch<-rownames(cnv_matrix)
   samplestokeep<-match(unlist(strsplit(sampleIDs,",")),idsforsearch)
@@ -1191,7 +1191,7 @@ runRdTest<-function(bed)
   if (as.matrix(genotype_matrix)[1,1]=="No_Samples") {
     return(c(chr,start,end,cnvID,sampleOrigIDs,cnvtypeOrigIDs,"No_samples_for_analysis","No_samples_for_analysis","No_samples_for_analysis","No_samples_for_analysis","No_samples_for_analysis","No_samples_for_analysis"))
   }
-  
+
   ##genotype and write to file##
   if (opt$rungenotype == TRUE) {
     ##Compress x-axis to 10 bins so it is easier to view###
@@ -1200,7 +1200,7 @@ runRdTest<-function(bed)
                              opt$SampleIncludeList,bins=10,raw_cov=raw_cov)[["cnv_matrix"]]
     genotype(cnv_matrix,genotype_matrix,refgeno,chr,start,end,cnvID,sampleIDs,cnvtype,outFolder,outputname,plot_cnvmatrix)
   }
-  
+
   ##QC on filtered sample counts##
   copystatecounts=table(genotype_matrix[1,5:ncol(genotype_matrix)])
   ##diploid count##
@@ -1208,7 +1208,7 @@ runRdTest<-function(bed)
   cnvcount=copystatecounts[ifelse(toupper(cnvtype)=="DEL","1","3")]
   if (is.na(dipcount)){
         return(c(chr,start,end,cnvID,sampleOrigIDs,cnvtypeOrigIDs,"All_samples_called_CNV_no_analysis","All_samples_called_CNV_no_analysis","All_samples_called_CNV_no_analysis","All_samples_called_CNV_no_analysis","All_samples_called_CNV_no_analysis","All_samples_called_CNV_no_analysis"))
-  } 
+  }
   ##Plot JPG##
   if (opt$plot == TRUE){
     plotJPG(genotype_matrix,cnv_matrix,chr,start,end,cnvID,sampleIDs,outputname,cnvtype,plotK=FALSE,plotfamily=FALSE,famfile,outFolder)
@@ -1224,7 +1224,7 @@ runRdTest<-function(bed)
       denovo_output <- cbind(chr,start,end,cnvID,cnvtype,"No_samples_for_analysis","No_samples_for_analysis","No_samples_for_analysis","No_samples_for_analysis","No_samples_for_analysis","No_samples_for_analysis","No_samples_for_analysis","No_samples_for_analysis","No_samples_for_analysis","No_samples_for_analysis",
                              "No_samples_for_analysis","No_samples_for_analysis","No_samples_for_analysis","No_samples_for_analysis",
                              "No_samples_for_analysis","No_samples_for_analysis","No_samples_for_analysis","No_samples_for_analysis")
-      
+
       return(denovo_output)
     }
     includedfams <- unique(family[which(family[, 2]  %in% samplesPrior), 1])
@@ -1244,7 +1244,7 @@ runRdTest<-function(bed)
       eval(parse(text=paste(mem,".secmaxp.list<-c()",sep="")))
       eval(parse(text=paste(mem,".rankp.list<-c()",sep="")))
       eval(parse(text=paste(mem,".sepp.list<-c()",sep="")))
-    } 
+    }
     affecteded_fam<-c()
     count=0
     fam_denovo.matrix<-c(NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA)
@@ -1297,21 +1297,21 @@ runRdTest<-function(bed)
       denovo_output <- cbind(chr,start,end,cnvID,cnvtype,includedfams,affecteded_fam,p1.p.list,s1.p.list,fa.p.list,mo.p.list,
                           p1.secmaxp.list,s1.secmaxp.list,fa.secmaxp.list,mo.secmaxp.list,
                           p1.sepp.list,s1.sepp.list,fa.sepp.list,mo.sepp.list,
-                          p1.rankp.list,s1.rankp.list,fa.rankp.list,mo.rankp.list) 
+                          p1.rankp.list,s1.rankp.list,fa.rankp.list,mo.rankp.list)
       } else { denovo_output<-fam_denovo.matrix[2:nrow(fam_denovo.matrix),] }
     return(denovo_output)
-  } 
-  
+  }
+
   ##Flip samples and cnvtype to that with the lowest frequency##
   if(dipcount<cnvcount){
     cnvtype=ifelse(toupper(cnvtype)=="DEL","DUP","DEL")
-    columnstoremove <- which(colnames(genotype_matrix) %in% unlist(strsplit(as.character(sampleIDs),split=","))) 
+    columnstoremove <- which(colnames(genotype_matrix) %in% unlist(strsplit(as.character(sampleIDs),split=",")))
     ifelse(toupper(cnvtype)=="DEL",genotype_matrix[,-c(columnstoremove,1,2,3,4)]<-1,genotype_matrix[,-c(columnstoremove,1,2,3,4)]<-3)
     genotype_matrix[,columnstoremove]<-2
     ##Reclassify diplod as the acutal CNV##
     sampleIDs<-noquote(paste(names(genotype_matrix[,-c(columnstoremove,1,2,3,4)]),collapse=","))
     samplesPrior <-unlist(strsplit(as.character(sampleIDs),split=","))
-  } 
+  }
   ##Power Calculation##
   power <- powerCalc(genotype_matrix, cnv_matrix)
   power<-ifelse(length(unlist(strsplit(as.character(sampleIDs), split = ","))) > 1,power,NA)
@@ -1333,7 +1333,7 @@ runRdTest<-function(bed)
     }
     ##Combine individual P-values with fisher.method##
     if (length(p.list) > 1) {
-    ##Need to change 0 to 1e-300 for sumlog function##  
+    ##Need to change 0 to 1e-300 for sumlog function##
       p.list<-rapply(p.list,function(x) ifelse(x==0,1e-300,x), how = "replace")
       p.2ndmax<-rapply(p.2ndmax,function(x) ifelse(x==0,1e-300,x), how = "replace")
       p <- list(sumlog(unlist(p.list))$p, sumlog(unlist(p.2ndmax))$p)
@@ -1342,7 +1342,7 @@ runRdTest<-function(bed)
     }
     p[3]<-"singlesampZ"
     names(p)<-c("Pvalue","Pmax_2nd","Test")
-  } 
+  }
   rank_sep<-samprank_sep(genotype_matrix,cnv_matrix,cnvtype)
   output=matrix(unlist(c(chr,start,end,cnvID,sampleOrigIDs,cnvtypeOrigIDs,power,p[1],p[2],p[3],rank_sep[1],rank_sep[2])),nrow=1)
   return(output)
@@ -1368,19 +1368,19 @@ if(class(results)=="list") {
 if (opt$denovo==FALSE) {
    if(!file.exists(paste(opt$outFolder,opt$outputname,".metrics",sep=""))) {
   ##write header##
-  write.table(matrix(c("chr","Start","End","CNVID","SampleIDs","Type","Median_Power","P","2ndMaxP","Model","Median_Rank","Median_Separation"),nrow=1),paste(opt$outFolder, opt$outputname, ".metrics", sep = ""),quote=FALSE,row.names=FALSE,col.names=FALSE,sep= "\t")  
-    } 
+  write.table(matrix(c("chr","Start","End","CNVID","SampleIDs","Type","Median_Power","P","2ndMaxP","Model","Median_Rank","Median_Separation"),nrow=1),paste(opt$outFolder, opt$outputname, ".metrics", sep = ""),quote=FALSE,row.names=FALSE,col.names=FALSE,sep= "\t")
+    }
   write.table(results,paste(opt$outFolder, opt$outputname, ".metrics", sep = ""),
-              quote = FALSE,col.names = FALSE, row.names = FALSE,append=TRUE,sep= "\t") 
+              quote = FALSE,col.names = FALSE, row.names = FALSE,append=TRUE,sep= "\t")
 } else {
   if(!file.exists(paste(opt$outFolder, opt$outputname,".denovo",sep=""))) {
     ##write header for de novo##
     if (opt$quartetDenovo==TRUE) {
-    write.table(matrix(c("chr","Start","End","CNVID","Type","Family","AffectedMember","Pro.P","Sib.P","Fa.P","Mo.P","Pro.secMaxP","Sib.secMaxP","Fa.secMaxP","Mo.secMaxP","Pro.Sep","Sib.Sep","Fa.Sep","Mo.Sep","Pro.rank","Sib.rank","Fa.rank","Mo.rank"),nrow=1),paste(opt$outFolder, opt$outputname, ".denovo", sep = ""),quote=FALSE,row.names=FALSE,col.names=FALSE,sep= "\t")  
+    write.table(matrix(c("chr","Start","End","CNVID","Type","Family","AffectedMember","Pro.P","Sib.P","Fa.P","Mo.P","Pro.secMaxP","Sib.secMaxP","Fa.secMaxP","Mo.secMaxP","Pro.Sep","Sib.Sep","Fa.Sep","Mo.Sep","Pro.rank","Sib.rank","Fa.rank","Mo.rank"),nrow=1),paste(opt$outFolder, opt$outputname, ".denovo", sep = ""),quote=FALSE,row.names=FALSE,col.names=FALSE,sep= "\t")
    } else {   write.table(matrix(c("chr","Start","End","CNVID","SampleIDs","Type","Median_Power","P","2ndMaxP","Model","Median_Rank","Median_Separation"),nrow=1),paste(opt$outFolder, opt$outputname, ".denovo", sep = ""),quote=FALSE,row.names=FALSE,col.names=FALSE,sep= "\t")   }
-  } 
+  }
   write.table(results,paste(opt$outFolder, opt$outputname, ".denovo", sep = ""),
-              quote = FALSE,col.names = FALSE, row.names = FALSE,append=TRUE,sep= "\t") 
+              quote = FALSE,col.names = FALSE, row.names = FALSE,append=TRUE,sep= "\t")
 }
 
 cat("FINISHED\n")
