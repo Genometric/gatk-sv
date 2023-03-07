@@ -608,7 +608,7 @@ def get_command_output(
         stderr = pipe_err.read().decode(encoding)
     return_code = sub_p.poll()
     if raise_on_error and return_code != 0:
-        raise RuntimeError("Error executing %s:\n%s" % (command, stderr[:-1]))
+        raise RuntimeError("Error executing %s:\n%s" % (command, stderr))
     return (output, stderr, return_code) if return_error_info else output
 
 
