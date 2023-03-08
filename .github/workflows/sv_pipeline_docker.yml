@@ -199,12 +199,12 @@ jobs:
           sudo systemctl restart docker.service
 
       # TEST ---------------------- begin
-#      - name: Azure login
-#        uses: azure/docker-login@v1
-#        with:
-#          login-server: ${{ secrets.AZ_CR }}
-#          username: ${{ secrets.AZ_USERNAME }}
-#          password: ${{ secrets.AZ_PASSWORD }}
+      - name: Azure login
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.AZ_CR }}
+          username: ${{ secrets.AZ_USERNAME }}
+          password: ${{ secrets.AZ_PASSWORD }}
 
       - name: Hello world images
         run: |
