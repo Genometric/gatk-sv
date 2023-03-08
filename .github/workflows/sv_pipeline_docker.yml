@@ -210,7 +210,7 @@ jobs:
         run: |
           docker pull hello-world
           docker tag hello-world:latest us.gcr.io/broad-dsde-methods/gatk-sv/hello-world:test
-          docker push us.gcr.io/broad-dsde-methods/vjalili/hello-world:test
+          docker push us.gcr.io/broad-dsde-methods/gatk-sv/hello-world:test
 #          docker tag hello-world:latest vahid.azurecr.io/hello-world:test
 #          docker push vahid.azurecr.io/hello-world:test
       # TEST ---------------------- end
