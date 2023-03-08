@@ -169,6 +169,15 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      # TEST --------------------------
+      - name: Azure login
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.AZ_CR }}
+          username: ${{ secrets.AZ_USERNAME }}
+          password: ${{ secrets.AZ_PASSWORD }}
+      # TEST --------------------------
+
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@v0.3.0
         with:
@@ -199,12 +208,12 @@ jobs:
           sudo systemctl restart docker.service
 
       # TEST ---------------------- begin
-      - name: Azure login
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.AZ_CR }}
-          username: ${{ secrets.AZ_USERNAME }}
-          password: ${{ secrets.AZ_PASSWORD }}
+#      - name: Azure login
+#        uses: azure/docker-login@v1
+#        with:
+#          login-server: ${{ secrets.AZ_CR }}
+#          username: ${{ secrets.AZ_USERNAME }}
+#          password: ${{ secrets.AZ_PASSWORD }}
 
       - name: Hello world images
         run: |
