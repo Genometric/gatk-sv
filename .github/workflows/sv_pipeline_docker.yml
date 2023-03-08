@@ -199,20 +199,22 @@ jobs:
           sudo systemctl restart docker.service
 
       # TEST ---------------------- begin
-      - name: Azure login
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.AZ_CR }}
-          username: ${{ secrets.AZ_USERNAME }}
-          password: ${{ secrets.AZ_PASSWORD }}
+#      - name: Azure login
+#        uses: azure/docker-login@v1
+#        with:
+#          login-server: ${{ secrets.AZ_CR }}
+#          username: ${{ secrets.AZ_USERNAME }}
+#          password: ${{ secrets.AZ_PASSWORD }}
 
       - name: Hello world images
         run: |
+#          ls
+
           docker pull hello-world
           docker tag hello-world:latest us.gcr.io/broad-dsde-methods/vjalili/hello-world:test
           docker push us.gcr.io/broad-dsde-methods/vjalili/hello-world:test
-          docker tag hello-world:latest vahid.azurecr.io/hello-world:test
-          docker push vahid.azurecr.io/hello-world:test
+#          docker tag hello-world:latest vahid.azurecr.io/hello-world:test
+#          docker push vahid.azurecr.io/hello-world:test
       # TEST ---------------------- end
 #
 #      - name: Build and Publish Docker Images to GCR
