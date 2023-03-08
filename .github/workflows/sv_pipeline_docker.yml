@@ -222,7 +222,7 @@ jobs:
           docker push us.gcr.io/${{ secrets.GCP_PROJECT_ID }}/hello-world:test
           docker tag hello-world:latest vahid.azurecr.io/hello-world:test
           docker push vahid.azurecr.io/hello-world:test
-      # TEST ---------------------- end
+      # TEST --------------------- end
 #
 #      - name: Build and Publish Docker Images to GCR
 #        id: build_and_publish
