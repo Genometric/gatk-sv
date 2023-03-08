@@ -1,4 +1,4 @@
-############### stage 0: build samtools from source
+############## stage 0: build samtools from source
 FROM ubuntu:18.04
 
 ARG DEBIAN_FRONTEND=noninteractive
