@@ -198,20 +198,7 @@ jobs:
           sudo mv "$tmp" /etc/docker/daemon.json
           sudo systemctl restart docker.service
 
-      - name: Build and Publish Docker Images to GCR
-        id: build_and_publish
-        run: |
-          python ./scripts/docker/build_docker.py \
-            --base-git-commit ${{ needs.build_args_job.outputs.base_sha }} \
-            --current-git-commit ${{ needs.build_args_job.outputs.head_sha }} \
-            --docker-repo us.gcr.io/${{ secrets.GCP_PROJECT_ID }}/gatk-sv \
-            --image-tag ${{ needs.build_args_job.outputs.image_tag }} \
-            --input-json $DOCKERS_GCP \
-            --output-json $DOCKERS_GCP
-          
-          CHANGED=$(git diff --quiet $DOCKERS_GCP || echo True)
-          echo "::set-output name=CHANGED::$CHANGED"
-
+      # TEST ---------------------- begin
       - name: Azure login
         uses: azure/docker-login@v1
         with:
@@ -219,24 +206,54 @@ jobs:
           username: ${{ secrets.AZ_USERNAME }}
           password: ${{ secrets.AZ_PASSWORD }}
 
-      - name: Build and Publish Docker Images to ACR
+      - name: Hello world images
         run: |
-          python ./scripts/docker/build_docker.py \
-            --base-git-commit ${{ needs.build_args_job.outputs.base_sha }} \
-            --current-git-commit ${{ needs.build_args_job.outputs.head_sha }} \
-            --docker-repo ${{ secrets.AZ_CR }} \
-            --image-tag ${{ needs.build_args_job.outputs.image_tag }} \
-            --input-json $DOCKERS_AZURE \
-            --output-json $DOCKERS_AZURE \
-            --prune-after-each-image \
-            --disable-git-protect
-
-      - name: Commit Changes to dockers_*.json
-        if: steps.build_and_publish.outputs.CHANGED
-        run: |
-          COMMIT_SHA=${{ needs.build_args_job.outputs.head_sha }}
-          git config --global user.name 'gatk-sv-bot'
-          git config --global user.email '101641599+gatk-sv-bot@users.noreply.github.com'
-          git commit $DOCKERS_AZURE $DOCKERS_GCP -m "Update docker images list, triggered by "${COMMIT_SHA::8}
-          git pull --rebase origin test_azure_registry_2
-          git push
+          docker pull hello-world
+          docker tag hello-world:latest us.gcr.io/broad-dsde-methods/vjalili/hello-world:test
+          docker push us.gcr.io/broad-dsde-methods/vjalili/hello-world:test
+          docker tag hello-world:latest vahid.azurecr.io/hello-world:test
+          docker push vahid.azurecr.io/hello-world:test
+      # TEST ---------------------- end
+#
+#      - name: Build and Publish Docker Images to GCR
+#        id: build_and_publish
+#        run: |
+#          python ./scripts/docker/build_docker.py \
+#            --base-git-commit ${{ needs.build_args_job.outputs.base_sha }} \
+#            --current-git-commit ${{ needs.build_args_job.outputs.head_sha }} \
+#            --docker-repo us.gcr.io/${{ secrets.GCP_PROJECT_ID }}/gatk-sv \
+#            --image-tag ${{ needs.build_args_job.outputs.image_tag }} \
+#            --input-json $DOCKERS_GCP \
+#            --output-json $DOCKERS_GCP
+#
+#          CHANGED=$(git diff --quiet $DOCKERS_GCP || echo True)
+#          echo "::set-output name=CHANGED::$CHANGED"
+#
+#      - name: Azure login
+#        uses: azure/docker-login@v1
+#        with:
+#          login-server: ${{ secrets.AZ_CR }}
+#          username: ${{ secrets.AZ_USERNAME }}
+#          password: ${{ secrets.AZ_PASSWORD }}
+#
+#      - name: Build and Publish Docker Images to ACR
+#        run: |
+#          python ./scripts/docker/build_docker.py \
+#            --base-git-commit ${{ needs.build_args_job.outputs.base_sha }} \
+#            --current-git-commit ${{ needs.build_args_job.outputs.head_sha }} \
+#            --docker-repo ${{ secrets.AZ_CR }} \
+#            --image-tag ${{ needs.build_args_job.outputs.image_tag }} \
+#            --input-json $DOCKERS_AZURE \
+#            --output-json $DOCKERS_AZURE \
+#            --prune-after-each-image \
+#            --disable-git-protect
+#
+#      - name: Commit Changes to dockers_*.json
+#        if: steps.build_and_publish.outputs.CHANGED
+#        run: |
+#          COMMIT_SHA=${{ needs.build_args_job.outputs.head_sha }}
+#          git config --global user.name 'gatk-sv-bot'
+#          git config --global user.email '101641599+gatk-sv-bot@users.noreply.github.com'
+#          git commit $DOCKERS_AZURE $DOCKERS_GCP -m "Update docker images list, triggered by "${COMMIT_SHA::8}
+#          git pull --rebase origin test_azure_registry_2
+#          git push
