@@ -207,7 +207,7 @@ jobs:
         id: build_and_publish
         run: |
           python ./scripts/docker/build_docker.py \
-            --targets wham
+            --targets wham \
             --docker-repo ${{ secrets.AZ_CR }} us.gcr.io/${{ secrets.GCP_PROJECT_ID }}/gatk-sv \
             --image-tag ${{ needs.build_args_job.outputs.image_tag }} \
             --input-json $DOCKERS_AZURE $DOCKERS_GCP \
