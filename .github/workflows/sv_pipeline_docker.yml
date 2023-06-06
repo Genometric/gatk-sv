@@ -2,16 +2,16 @@ name: Docker Images
 
 on:
   push:
-    branches:
-      - main
+#    branches:
+#      - main
     paths:
       - 'src/**'
       - 'dockerfiles/**'
       - 'scripts/docker/build_docker.py'
       - '.github/workflows/sv_pipeline_docker.yml'
   pull_request:
-    branches:
-      - main
+#    branches:
+#      - main
     paths:
       - 'src/**'
       - 'dockerfiles/**'
@@ -167,6 +167,13 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Azure login
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.AZ_CR }}
+          username: ${{ secrets.AZ_USERNAME }}
+          password: ${{ secrets.AZ_PASSWORD }}
+
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@v0.3.0
         with:
@@ -196,38 +203,19 @@ jobs:
           sudo mv "$tmp" /etc/docker/daemon.json
           sudo systemctl restart docker.service
 
-      - name: Build and Publish Docker Images to GCR
+      - name: Build and Publish Docker Images to ACR & GCR
         id: build_and_publish
         run: |
           python ./scripts/docker/build_docker.py \
-            --base-git-commit ${{ needs.build_args_job.outputs.base_sha }} \
-            --current-git-commit ${{ needs.build_args_job.outputs.head_sha }} \
-            --docker-repo us.gcr.io/${{ secrets.GCP_PROJECT_ID }}/gatk-sv \
+            --targets wham
+            --docker-repo ${{ secrets.AZ_CR }} us.gcr.io/${{ secrets.GCP_PROJECT_ID }}/gatk-sv \
             --image-tag ${{ needs.build_args_job.outputs.image_tag }} \
-            --input-json $DOCKERS_GCP \
-            --output-json $DOCKERS_GCP
+            --input-json $DOCKERS_AZURE $DOCKERS_GCP \
+            --output-json $DOCKERS_AZURE $DOCKERS_GCP \
+            --disable-git-protect
           
           CHANGED=$(git diff --quiet $DOCKERS_GCP || echo True)
           echo "::set-output name=CHANGED::$CHANGED"
-
-      - name: Azure login
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.AZ_CR }}
-          username: ${{ secrets.AZ_USERNAME }}
-          password: ${{ secrets.AZ_PASSWORD }}
-
-      - name: Build and Publish Docker Images to ACR
-        run: |
-          python ./scripts/docker/build_docker.py \
-            --base-git-commit ${{ needs.build_args_job.outputs.base_sha }} \
-            --current-git-commit ${{ needs.build_args_job.outputs.head_sha }} \
-            --docker-repo ${{ secrets.AZ_CR }} \
-            --image-tag ${{ needs.build_args_job.outputs.image_tag }} \
-            --input-json $DOCKERS_AZURE \
-            --output-json $DOCKERS_AZURE \
-            --prune-after-each-image \
-            --disable-git-protect
 
       - name: Commit Changes to dockers_*.json
         if: steps.build_and_publish.outputs.CHANGED
