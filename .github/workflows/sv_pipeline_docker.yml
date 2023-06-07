@@ -225,4 +225,9 @@ jobs:
           git config --global user.email '101641599+gatk-sv-bot@users.noreply.github.com'
           git commit $DOCKERS_AZURE $DOCKERS_GCP -m "Update docker images list, triggered by "${COMMIT_SHA::8}
           git pull --rebase origin main
+          
+          # In the following, force-push is required when the above rebase updates the branch;
+          # otherwise, the push will be rejected with the following error: 
+          # > Updates were rejected because the tip of your current branch is behind ts remote counterpart.
+          # See this thread for details: https://stackoverflow.com/q/39399804
           git push -f
