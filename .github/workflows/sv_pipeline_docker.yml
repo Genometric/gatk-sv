@@ -225,4 +225,4 @@ jobs:
           git config --global user.email '101641599+gatk-sv-bot@users.noreply.github.com'
           git commit $DOCKERS_AZURE $DOCKERS_GCP -m "Update docker images list, triggered by "${COMMIT_SHA::8}
           git pull --rebase origin main
-          git push
+          git push -f
