@@ -1,9 +1,6 @@
-# Ignore everything
+# ignore everything
 **
 # Allow src
 !/src/**
 # Allow dockers
 !/dockerfiles/**
-
-
-
