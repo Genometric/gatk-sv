@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - patch-31
+      - VJalili-patch-31
     paths:
       - 'src/**'
       - 'dockerfiles/**'
@@ -13,7 +13,7 @@ on:
   pull_request:
     branches:
       - main
-      - patch-31
+      - VJalili-patch-31
     paths:
       - 'src/**'
       - 'dockerfiles/**'
