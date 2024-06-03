@@ -9,7 +9,7 @@ on:
       - 'src/**'
       - 'dockerfiles/**'
       - 'scripts/docker/build_docker.py'
-      - '.github/workflows/sv_pipeline_docker.yml'
+      - '.github/workflows/test_action.yml'
   pull_request:
     branches:
       - main
@@ -18,12 +18,12 @@ on:
       - 'src/**'
       - 'dockerfiles/**'
       - 'scripts/docker/build_docker.py'
-      - '.github/workflows/sv_pipeline_docker.yml'
+      - '.github/workflows/test_action.yml'
 
 jobs:
   build_args_job:
     runs-on: ubuntu-20.04
-    name: Determine Build Args
+    name: TEST RUN
     env:
       GITHUB_CONTEXT: ${{ toJson(github) }}
     outputs:
@@ -41,11 +41,11 @@ jobs:
           # the complete git history.
           fetch-depth: 0
           
-      - name: Hello world action step
-        id: hello
-        uses: Genometric/hello-world-javascript-action
-        with:
-          who-to-greet: 'Mona the Octocat'
-      # Use the output from the `hello` step
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+      # - name: Hello world action step
+      #   id: hello
+      #   uses: Genometric/hello-world-javascript-action
+      #   with:
+      #     who-to-greet: 'Mona the Octocat'
+      # # Use the output from the `hello` step
+      # - name: Get the output time
+      #   run: echo "The time was ${{ steps.hello.outputs.time }}"
