@@ -41,11 +41,11 @@ jobs:
           # the complete git history.
           fetch-depth: 0
           
-      # - name: Hello world action step
-      #   id: hello
-      #   uses: Genometric/hello-world-javascript-action
-      #   with:
-      #     who-to-greet: 'Mona the Octocat'
-      # # Use the output from the `hello` step
-      # - name: Get the output time
-      #   run: echo "The time was ${{ steps.hello.outputs.time }}"
+      - name: Hello world action step
+        id: hello
+        uses: Genometric/hello-world-javascript-action
+        with:
+          who-to-greet: 'Mona the Octocat'
+      # Use the output from the `hello` step
+      - name: Get the output time
+        run: echo "The time was ${{ steps.hello.outputs.time }}"
