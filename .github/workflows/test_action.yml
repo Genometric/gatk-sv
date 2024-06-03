@@ -29,10 +29,11 @@ jobs:
     steps:
       - name: Hello world action step
         id: hello
-        uses: Genometric/hello-world-javascript-action@v1.4
+        uses: Genometric/hello-world-javascript-action@v1.5
         with:
           who-to-greet: 'Mona the Octocat'
           azure-storage-account-name: 'cromwell7379410456f0'
+          azure-storage-container-name: 'workflows'
       # Use the output from the `hello` step
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
