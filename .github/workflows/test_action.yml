@@ -1,0 +1,49 @@
+name: Docker Images
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'dockerfiles/**'
+      - 'scripts/docker/build_docker.py'
+      - '.github/workflows/sv_pipeline_docker.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'dockerfiles/**'
+      - 'scripts/docker/build_docker.py'
+      - '.github/workflows/sv_pipeline_docker.yml'
+
+jobs:
+  build_args_job:
+    runs-on: ubuntu-20.04
+    name: Determine Build Args
+    env:
+      GITHUB_CONTEXT: ${{ toJson(github) }}
+    outputs:
+      base_sha: ${{ steps.commit_sha.outputs.BASE_SHA }}
+      head_sha: ${{ steps.commit_sha.outputs.HEAD_SHA }}
+      image_tag: ${{ steps.image_tag.outputs.IMAGE_TAG }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          # By default, this checks out only the current commit;
+          # however, since a diff between the current commit and
+          # the base commit is required to determined which docker
+          # images to rebuild, we use the following to check out
+          # the complete git history.
+          fetch-depth: 0
+          
+      - name: Hello world action step
+        id: hello
+        uses: Genometric/hello-world-javascript-action
+        with:
+          who-to-greet: 'Mona the Octocat'
+      # Use the output from the `hello` step
+      - name: Get the output time
+        run: echo "The time was ${{ steps.hello.outputs.time }}"
