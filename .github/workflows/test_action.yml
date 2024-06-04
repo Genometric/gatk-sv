@@ -40,7 +40,7 @@ jobs:
             subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       - name: Hello world action step
         id: hello
-        uses: Genometric/hello-world-javascript-action@v1.20
+        uses: Genometric/hello-world-javascript-action@v1.21
         with:
           who-to-greet: 'Mona the Octocat'
           azure-storage-account-name: 'cromwell7379410456f0'
