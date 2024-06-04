@@ -44,6 +44,9 @@ jobs:
           azcliversion: latest
           inlineScript: |
             az account show
+            echo "Hello" > text.txt
+            az storage blob upload --file text.txt --account-name "cromwell7379410456f0" --container-name "workflows" --auth-mode login
+            
       - name: Hello world action step
         id: hello
         uses: Genometric/hello-world-javascript-action@v1.21
