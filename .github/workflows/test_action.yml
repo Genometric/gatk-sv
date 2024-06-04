@@ -44,7 +44,7 @@ jobs:
         with:
           who-to-greet: 'Mona the Octocat'
           azure-storage-account-name: 'cromwell7379410456f0'
-          azure-storage-container-name: 'workflows'
+          azure-storage-container-name: 'workflows/new/test.txt'
       # Use the output from the `hello` step
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
