@@ -49,7 +49,7 @@ jobs:
             
       - name: Hello world action step
         id: hello
-        uses: Genometric/hello-world-javascript-action@v1.23
+        uses: Genometric/hello-world-javascript-action@v1.24
         with:
           who-to-greet: 'Mona the Octocat'
           azure-storage-account-name: 'cromwell7379410456f0'
