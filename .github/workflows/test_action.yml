@@ -50,11 +50,13 @@ jobs:
             
       - name: Hello world action step
         id: hello
-        uses: Genometric/hello-world-javascript-action@v1.24
+        uses: Genometric/hello-world-javascript-action@v1.25
         with:
-          who-to-greet: 'Mona the Octocat'
           azure-storage-account-name: 'cromwell7379410456f0'
           azure-storage-container-name: 'workflows'
-          azure-storage-blob-name: 'test.txt'
+          azure-storage-blob-name: 'new/trigger.json'
+          workflow-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/Aaa.wdl"
+          workflow-inputs-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/aaa_test_inputs.json"
+          workflow-dependencies-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/test_wdls.zip"
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
