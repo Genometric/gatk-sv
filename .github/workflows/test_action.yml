@@ -60,6 +60,7 @@ jobs:
           workflow-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/Aaa.wdl"
           workflow-inputs-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/aaa_test_inputs.json"
           workflow-dependencies-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/test_wdls.zip"
+          workflow-id: ${{ steps.submit.outputs.workflowId }}
           subcommand: "monitor"
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
