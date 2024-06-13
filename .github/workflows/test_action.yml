@@ -40,8 +40,8 @@ jobs:
             subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
             
       - name: Hello world action step
-        id: hello
-        uses: Genometric/hello-world-javascript-action@v1.33
+        id: submit
+        uses: Genometric/hello-world-javascript-action@v1.34
         with:
           azure-storage-account-name: 'cromwell7379410456f0'
           azure-storage-container-name: 'workflows'
@@ -49,5 +49,18 @@ jobs:
           workflow-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/Aaa.wdl"
           workflow-inputs-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/aaa_test_inputs.json"
           workflow-dependencies-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/test_wdls.zip"
+          subcommand: "submit"
+      - name: TEST
+        id: monitor
+        uses: Genometric/hello-world-javascript-action@v1.34
+        with:
+          azure-storage-account-name: 'cromwell7379410456f0'
+          azure-storage-container-name: 'workflows'
+          azure-storage-blob-name: 'new/trigger.json'
+          workflow-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/Aaa.wdl"
+          workflow-inputs-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/aaa_test_inputs.json"
+          workflow-dependencies-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/test_wdls.zip"
+          workflow-id: ${{ steps.submit.outputs.workflowId }}
+          subcommand: "monitor"
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
