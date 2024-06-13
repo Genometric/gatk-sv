@@ -41,7 +41,7 @@ jobs:
             
       - name: Hello world action step
         id: hello
-        uses: Genometric/hello-world-javascript-action@v1.31
+        uses: Genometric/hello-world-javascript-action@v1.32
         with:
           azure-storage-account-name: 'cromwell7379410456f0'
           azure-storage-container-name: 'workflows'
