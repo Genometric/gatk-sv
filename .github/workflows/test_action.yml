@@ -31,6 +31,13 @@ jobs:
     name: TEST RUN
     env:
       GITHUB_CONTEXT: ${{ toJson(github) }}
+      AZURE_VARS: &azure_vars
+        azure-storage-account-name: 'cromwell7379410456f0'
+        azure-storage-container-name: 'workflows'
+        azure-storage-blob-name: 'new/trigger.json'
+        workflow-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/Aaa.wdl"
+        workflow-inputs-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/aaa_test_inputs.json"
+        workflow-dependencies-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/test_wdls.zip"
     steps:
       - name: 'Az CLI login'
         uses: azure/login@v2
@@ -39,28 +46,19 @@ jobs:
             tenant-id: ${{ secrets.AZURE_TENANT_ID }}
             subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
             
-      - name: Hello world action step
+      - name: Submit workflow
         id: submit
         uses: Genometric/hello-world-javascript-action@v1.34
         with:
-          azure-storage-account-name: 'cromwell7379410456f0'
-          azure-storage-container-name: 'workflows'
-          azure-storage-blob-name: 'new/trigger.json'
-          workflow-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/Aaa.wdl"
-          workflow-inputs-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/aaa_test_inputs.json"
-          workflow-dependencies-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/test_wdls.zip"
+          <<: *azure_vars
           subcommand: "submit"
-      - name: TEST
+      - name: Monitor submission status
         id: monitor
         uses: Genometric/hello-world-javascript-action@v1.34
         with:
-          azure-storage-account-name: 'cromwell7379410456f0'
-          azure-storage-container-name: 'workflows'
-          azure-storage-blob-name: 'new/trigger.json'
-          workflow-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/Aaa.wdl"
-          workflow-inputs-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/aaa_test_inputs.json"
-          workflow-dependencies-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/test_wdls.zip"
-          workflow-id: ${{ steps.submit.outputs.workflowId }}
+          <<: *azure_vars
           subcommand: "monitor"
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
+
+
