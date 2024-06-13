@@ -31,13 +31,6 @@ jobs:
     name: TEST RUN
     env:
       GITHUB_CONTEXT: ${{ toJson(github) }}
-      AZURE_VARS: &azure_vars
-        azure-storage-account-name: 'cromwell7379410456f0'
-        azure-storage-container-name: 'workflows'
-        azure-storage-blob-name: 'new/trigger.json'
-        workflow-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/Aaa.wdl"
-        workflow-inputs-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/aaa_test_inputs.json"
-        workflow-dependencies-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/test_wdls.zip"
     steps:
       - name: 'Az CLI login'
         uses: azure/login@v2
@@ -50,13 +43,23 @@ jobs:
         id: submit
         uses: Genometric/hello-world-javascript-action@v1.34
         with:
-          <<: *azure_vars
+          azure-storage-account-name: 'cromwell7379410456f0'
+          azure-storage-container-name: 'workflows'
+          azure-storage-blob-name: 'new/trigger.json'
+          workflow-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/Aaa.wdl"
+          workflow-inputs-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/aaa_test_inputs.json"
+          workflow-dependencies-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/test_wdls.zip"
           subcommand: "submit"
       - name: Monitor submission status
         id: monitor
         uses: Genometric/hello-world-javascript-action@v1.34
         with:
-          <<: *azure_vars
+          azure-storage-account-name: 'cromwell7379410456f0'
+          azure-storage-container-name: 'workflows'
+          azure-storage-blob-name: 'new/trigger.json'
+          workflow-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/Aaa.wdl"
+          workflow-inputs-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/aaa_test_inputs.json"
+          workflow-dependencies-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/test_wdls.zip"
           subcommand: "monitor"
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
