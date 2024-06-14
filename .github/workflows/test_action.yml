@@ -20,6 +20,9 @@ on:
       - 'scripts/docker/build_docker.py'
       - '.github/workflows/test_action.yml'
 
+env:
+  AZURE_STORAGE_ACCOUNT_NAME: 'cromwell7379410456f0'
+
 permissions:
   id-token: write
   contents: write
@@ -31,9 +34,6 @@ jobs:
     name: TEST RUN
     env:
       GITHUB_CONTEXT: ${{ toJson(github) }}
-    strategy:
-      matrix:
-        subcommand: [submit, monitor]
     steps:
       - name: 'Az CLI login'
         uses: azure/login@v2
@@ -46,28 +46,26 @@ jobs:
         id: submit
         uses: Genometric/hello-world-javascript-action@v1.34
         with:
+          azure-storage-account-name: $AZURE_STORAGE_ACCOUNT_NAME
+          azure-storage-container-name: 'workflows'
+          azure-storage-blob-name: 'new/trigger.json'
+          workflow-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/Aaa.wdl"
+          workflow-inputs-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/aaa_test_inputs.json"
+          workflow-dependencies-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/test_wdls.zip"
+          subcommand: "submit"
+      - name: Monitor submission status
+        id: monitor
+        uses: Genometric/hello-world-javascript-action@v1.34
+        with:
           azure-storage-account-name: 'cromwell7379410456f0'
           azure-storage-container-name: 'workflows'
           azure-storage-blob-name: 'new/trigger.json'
           workflow-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/Aaa.wdl"
           workflow-inputs-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/aaa_test_inputs.json"
           workflow-dependencies-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/test_wdls.zip"
-          subcommand: ${{ matrix.subcommand }}
-        env:
-          WORKFLOW_ID: ${{ steps.submit.outputs.workflowId || '' }}
-#      - name: Monitor submission status
-#        id: monitor
-#        uses: Genometric/hello-world-javascript-action@v1.34
-#        with:
-#          azure-storage-account-name: 'cromwell7379410456f0'
-#          azure-storage-container-name: 'workflows'
-#          azure-storage-blob-name: 'new/trigger.json'
-#          workflow-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/Aaa.wdl"
-#          workflow-inputs-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/aaa_test_inputs.json"
-#          workflow-dependencies-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/test_wdls.zip"
-#          workflow-id: ${{ steps.submit.outputs.workflowId }}
-#          subcommand: "monitor"
-#      - name: Get the output time
-#        run: echo "The time was ${{ steps.hello.outputs.time }}"
-#
-#
+          workflow-id: ${{ steps.submit.outputs.workflowId }}
+          subcommand: "monitor"
+      - name: Get the output time
+        run: echo "The time was ${{ steps.hello.outputs.time }}"
+
+
