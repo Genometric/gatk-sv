@@ -46,7 +46,7 @@ jobs:
         id: submit
         uses: Genometric/hello-world-javascript-action@v1.34
         with:
-          azure-storage-account-name: $AZURE_STORAGE_ACCOUNT_NAME
+          azure-storage-account-name: ${{ AZURE_STORAGE_ACCOUNT_NAME }}
           azure-storage-container-name: 'workflows'
           azure-storage-blob-name: 'new/trigger.json'
           workflow-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/Aaa.wdl"
