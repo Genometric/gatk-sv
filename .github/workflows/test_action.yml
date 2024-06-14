@@ -22,6 +22,7 @@ on:
 
 env:
   AZURE_STORAGE_ACCOUNT_NAME: 'cromwell7379410456f0'
+  AZURE_STORAGE_CONTAINER_NAME: 'workflows'
 
 permissions:
   id-token: write
@@ -44,22 +45,20 @@ jobs:
             
       - name: Submit workflow
         id: submit
-        uses: Genometric/hello-world-javascript-action@v1.34
+        uses: Genometric/hello-world-javascript-action@v1.35
         with:
           azure-storage-account-name: ${{ env.AZURE_STORAGE_ACCOUNT_NAME }}
-          azure-storage-container-name: 'workflows'
-          azure-storage-blob-name: 'new/trigger.json'
+          azure-storage-container-name: ${{ env.AZURE_STORAGE_CONTAINER_NAME }}
           workflow-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/Aaa.wdl"
           workflow-inputs-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/aaa_test_inputs.json"
           workflow-dependencies-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/test_wdls.zip"
           subcommand: "submit"
       - name: Monitor submission status
         id: monitor
-        uses: Genometric/hello-world-javascript-action@v1.34
+        uses: Genometric/hello-world-javascript-action@v1.35
         with:
           azure-storage-account-name: 'cromwell7379410456f0'
           azure-storage-container-name: 'workflows'
-          azure-storage-blob-name: 'new/trigger.json'
           workflow-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/Aaa.wdl"
           workflow-inputs-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/aaa_test_inputs.json"
           workflow-dependencies-path: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/test_wdls.zip"
