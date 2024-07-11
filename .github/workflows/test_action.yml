@@ -49,7 +49,7 @@ jobs:
             
       - name: Submit workflow
         id: submit
-        uses: Genometric/hello-world-javascript-action@dev-20240711-2838096
+        uses: Genometric/hello-world-javascript-action@dev-20240711-55679fb
         with:
           azure_storage_account_name: ${{ env.AZURE_STORAGE_ACCOUNT_NAME }}
           azure_storage_container_name: ${{ env.AZURE_STORAGE_CONTAINER_NAME }}
@@ -60,7 +60,7 @@ jobs:
           subcommand: "submit"
       - name: Monitor submission status
         id: monitor
-        uses: Genometric/hello-world-javascript-action@dev-20240711-2838096
+        uses: Genometric/hello-world-javascript-action@dev-20240711-55679fb
         with:
           azure_storage_account_name: ${{ env.AZURE_STORAGE_ACCOUNT_NAME }}
           azure_storage_container_name: ${{ env.AZURE_STORAGE_CONTAINER_NAME }}
