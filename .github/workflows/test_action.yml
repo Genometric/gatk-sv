@@ -23,6 +23,7 @@ on:
 env:
   AZURE_STORAGE_ACCOUNT_NAME: 'cromwell7379410456f0'
   AZURE_STORAGE_CONTAINER_NAME: 'workflows'
+  AZURE_STORAGE_INPUTS_CONTAINER_NAME: 'tests-inputs'
   WORKFLOW_PATH: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/Aaa.wdl"
   WORKFLOW_INPUTS_PATH: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/aaa_test_inputs.json"
   WORKFLOW_DEPENDENCIES_PATH: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/test_wdls.zip"
@@ -50,22 +51,24 @@ jobs:
         id: submit
         uses: Genometric/hello-world-javascript-action@dev-20240711-2838096
         with:
-          azure-storage-account-name: ${{ env.AZURE_STORAGE_ACCOUNT_NAME }}
-          azure-storage-container-name: ${{ env.AZURE_STORAGE_CONTAINER_NAME }}
-          workflow-path: ${{ env.WORKFLOW_PATH }}
-          workflow-inputs-path: ${{ env.WORKFLOW_INPUTS_PATH }}
-          workflow-dependencies-path: ${{ env.WORKFLOW_DEPENDENCIES_PATH }}
+          azure_storage_account_name: ${{ env.AZURE_STORAGE_ACCOUNT_NAME }}
+          azure_storage_container_name: ${{ env.AZURE_STORAGE_CONTAINER_NAME }}
+          azure_storage_container_name: ${{ env.AZURE_STORAGE_INPUTS_CONTAINER_NAME }}
+          workflow_path: ${{ env.WORKFLOW_PATH }}
+          workflow_inputs_path: ${{ env.WORKFLOW_INPUTS_PATH }}
+          workflow_dependencies_path: ${{ env.WORKFLOW_DEPENDENCIES_PATH }}
           subcommand: "submit"
       - name: Monitor submission status
         id: monitor
         uses: Genometric/hello-world-javascript-action@dev-20240711-2838096
         with:
-          azure-storage-account-name: ${{ env.AZURE_STORAGE_ACCOUNT_NAME }}
-          azure-storage-container-name: ${{ env.AZURE_STORAGE_CONTAINER_NAME }}
-          workflow-path: ${{ env.WORKFLOW_PATH }}
-          workflow-inputs-path: ${{ env.WORKFLOW_INPUTS_PATH }}
-          workflow-dependencies-path: ${{ env.WORKFLOW_DEPENDENCIES_PATH }}
-          workflow-id: ${{ steps.submit.outputs.workflowId }}
+          azure_storage_account_name: ${{ env.AZURE_STORAGE_ACCOUNT_NAME }}
+          azure_storage_container_name: ${{ env.AZURE_STORAGE_CONTAINER_NAME }}
+          azure_storage_container_name: ${{ env.AZURE_STORAGE_INPUTS_CONTAINER_NAME }}
+          workflow_path: ${{ env.WORKFLOW_PATH }}
+          workflow_inputs_path: ${{ env.WORKFLOW_INPUTS_PATH }}
+          workflow_dependencies_path: ${{ env.WORKFLOW_DEPENDENCIES_PATH }}
+          workflow_id: ${{ steps.submit.outputs.workflowId }}
           subcommand: "monitor"
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
