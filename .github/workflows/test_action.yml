@@ -53,7 +53,6 @@ jobs:
         with:
           azure_storage_account_name: ${{ env.AZURE_STORAGE_ACCOUNT_NAME }}
           azure_storage_container_name: ${{ env.AZURE_STORAGE_CONTAINER_NAME }}
-          azure_storage_container_name: ${{ env.AZURE_STORAGE_INPUTS_CONTAINER_NAME }}
           workflow_path: ${{ env.WORKFLOW_PATH }}
           workflow_inputs_path: ${{ env.WORKFLOW_INPUTS_PATH }}
           workflow_dependencies_path: ${{ env.WORKFLOW_DEPENDENCIES_PATH }}
@@ -64,7 +63,6 @@ jobs:
         with:
           azure_storage_account_name: ${{ env.AZURE_STORAGE_ACCOUNT_NAME }}
           azure_storage_container_name: ${{ env.AZURE_STORAGE_CONTAINER_NAME }}
-          azure_storage_container_name: ${{ env.AZURE_STORAGE_INPUTS_CONTAINER_NAME }}
           workflow_path: ${{ env.WORKFLOW_PATH }}
           workflow_inputs_path: ${{ env.WORKFLOW_INPUTS_PATH }}
           workflow_dependencies_path: ${{ env.WORKFLOW_DEPENDENCIES_PATH }}
