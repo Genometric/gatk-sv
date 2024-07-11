@@ -24,9 +24,9 @@ env:
   AZURE_STORAGE_ACCOUNT_NAME: 'cromwell7379410456f0'
   AZURE_STORAGE_CONTAINER_NAME: 'workflows'
   AZURE_STORAGE_INPUTS_CONTAINER_NAME: 'tests-inputs'
-  WORKFLOW_PATH: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/Aaa.wdl"
-  WORKFLOW_INPUTS_PATH: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/aaa_test_inputs.json"
-  WORKFLOW_DEPENDENCIES_PATH: "https://cromwell7379410456f0.blob.core.windows.net/tests-inputs/test_wdls.zip"
+  WORKFLOW_PATH: "./Aaa.wdl"
+  WORKFLOW_INPUTS_PATH: "./aaa_test_inputs.json"
+  WORKFLOW_DEPENDENCIES_PATH: "./tests-inputs/test_wdls.zip"
 
 permissions:
   id-token: write
