@@ -24,9 +24,9 @@ env:
   AZURE_STORAGE_ACCOUNT_NAME: 'cromwell7379410456f0'
   AZURE_STORAGE_CONTAINER_NAME: 'workflows'
   AZURE_STORAGE_INPUTS_CONTAINER_NAME: 'tests-inputs'
-  WORKFLOW_PATH: "./Aaa.wdl"
-  WORKFLOW_INPUTS_PATH: "./aaa_test_inputs.json"
-  WORKFLOW_DEPENDENCIES_PATH: "./test_wdls.zip"
+  WORKFLOW_PATH: "./HelloWorld.wdl"
+  WORKFLOW_INPUTS_PATH: "./HelloWorldInputs.json"
+  WORKFLOW_DEPENDENCIES_PATH: "./Dependencies.zip"
 
 permissions:
   id-token: write
