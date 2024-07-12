@@ -26,7 +26,7 @@ env:
   AZURE_STORAGE_INPUTS_CONTAINER_NAME: 'tests-inputs'
   WORKFLOW_PATH: "./Aaa.wdl"
   WORKFLOW_INPUTS_PATH: "./aaa_test_inputs.json"
-  WORKFLOW_DEPENDENCIES_PATH: "./tests-inputs/test_wdls.zip"
+  WORKFLOW_DEPENDENCIES_PATH: "./test_wdls.zip"
 
 permissions:
   id-token: write
