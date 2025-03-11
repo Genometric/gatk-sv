@@ -22,7 +22,7 @@ on:
 
 jobs:
   build_args_job:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     name: Determine Build Args
     env:
       GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -145,9 +145,9 @@ jobs:
     # credentials. Finally, it rebuilds the docker images (targets are
     # determined by the `build_args_job`) and pushes them to GCR.
     name: Publish
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     environment: Deploy
-    if: github.event_name == 'push'
+    # if: github.event_name == 'push'
     needs: build_args_job
     strategy:
       matrix:
