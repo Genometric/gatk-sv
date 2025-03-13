@@ -213,7 +213,6 @@ jobs:
         run: |
           gcloud auth configure-docker
           tmp=$(mktemp)
-          sudo touch /etc/docker/daemon.json
           sudo jq '.+{experimental:true}' /etc/docker/daemon.json > "$tmp"
           sudo mv "$tmp" /etc/docker/daemon.json
           sudo systemctl restart docker.service
