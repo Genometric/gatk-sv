@@ -177,9 +177,9 @@ jobs:
           password: ${{ secrets.AZ_PASSWORD }}
 
       - name: GCP login
-        uses: google-github-actions/auth@v2
+        uses: google-github-actions/auth@v2.0.0
         with:
-          credentials_json: ${{ secrets.GCP_SA_CREDENTIALS }}
+          credentials_json: '${{ secrets.GCP_SA_CREDENTIALS }}'
       
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@v2
@@ -213,6 +213,7 @@ jobs:
         run: |
           gcloud auth configure-docker
           tmp=$(mktemp)
+          sudo touch /etc/docker/daemon.json
           sudo jq '.+{experimental:true}' /etc/docker/daemon.json > "$tmp"
           sudo mv "$tmp" /etc/docker/daemon.json
           sudo systemctl restart docker.service
