@@ -218,6 +218,12 @@ jobs:
           sudo mv "$tmp" /etc/docker/daemon.json
           sudo systemctl restart docker.service
 
+      - name: "TEST"
+        run: |
+          docker pull hello-world
+          docker tag hello-world us.gcr.io/talkowski-service-account-test/hello-world
+          docker push us.gcr.io/talkowski-service-account-test/hello-world
+
       - name: Build and Publish Docker Images to ACR & GCR
         id: build_and_publish
         run: |
