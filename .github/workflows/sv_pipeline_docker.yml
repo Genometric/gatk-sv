@@ -193,6 +193,9 @@ jobs:
           # GATK-SV cloned directory which will cause build_docker.py to
           # raise an exception about the uncommitted file.
 
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+
       - name: Configure Docker using gcloud
         # This step uses gcloud to configure docker credentials to access GCR
         # using a service account.
