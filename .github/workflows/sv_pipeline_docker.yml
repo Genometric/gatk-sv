@@ -227,9 +227,10 @@ jobs:
       - name: Build and Publish Docker Images to ACR & GCR
         id: build_and_publish
         run: |
+          # --docker-repo ${{ secrets.AZ_CR }} us.gcr.io/${{ secrets.GCP_PROJECT_ID }}/gatk-sv \
           python ./scripts/docker/build_docker.py \
             --targets manta \
-            --docker-repo ${{ secrets.AZ_CR }} us.gcr.io/${{ secrets.GCP_PROJECT_ID }}/gatk-sv \
+            --docker-repo us.gcr.io/${{ secrets.GCP_PROJECT_ID }}/gatk-sv \
             --image-tag ${{ needs.build_args_job.outputs.image_tag }} \
             --input-json $DOCKERS_AZURE $DOCKERS_GCP \
             --output-json $DOCKERS_AZURE $DOCKERS_GCP \
