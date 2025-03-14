@@ -230,9 +230,8 @@ jobs:
           # --docker-repo ${{ secrets.AZ_CR }} us.gcr.io/${{ secrets.GCP_PROJECT_ID }}/gatk-sv \
           # --docker-repo us.gcr.io/${{ secrets.GCP_PROJECT_ID }}/gatk-sv \
           python ./scripts/docker/build_docker.py \
-            --docker-repo ${{ secrets.AZ_CR }}
             --targets manta \
-            --docker-repo us.gcr.io/${{ secrets.GCP_PROJECT_ID }}/gatk-sv \
+            --docker-repo ${{ secrets.AZ_CR }} \
             --image-tag ${{ needs.build_args_job.outputs.image_tag }} \
             --input-json $DOCKERS_AZURE $DOCKERS_GCP \
             --output-json $DOCKERS_AZURE $DOCKERS_GCP \
