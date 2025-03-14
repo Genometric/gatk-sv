@@ -170,7 +170,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Azure login
-        uses: azure/docker-login@v1
+        uses: azure/docker-login@v2
         with:
           login-server: ${{ secrets.AZ_CR }}
           username: ${{ secrets.AZ_USERNAME }}
