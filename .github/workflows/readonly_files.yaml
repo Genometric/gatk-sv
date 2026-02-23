@@ -4,11 +4,11 @@ on:
   push:
     branches: 
       - main
-      - test_readonly
+      - VJalili-patch-33
   pull_request:
     branches:
       - main
-      - test_readonly
+      - VJalili-patch-33
 
 jobs:
   readonly:
