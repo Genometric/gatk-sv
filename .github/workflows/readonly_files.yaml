@@ -2,9 +2,13 @@ name: Readonly Files
 
 on:
   push:
-    branches: [ main ]
+    branches: 
+      - main
+      - test_readonly
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
+      - test_readonly
 
 jobs:
   readonly:
