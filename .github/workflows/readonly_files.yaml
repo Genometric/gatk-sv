@@ -1,4 +1,4 @@
-name: Readonly Files
+name: Readonly Check
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
 
 jobs:
   readonly:
-    name: Readonly Files
+    name: Verify
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
@@ -27,7 +27,7 @@ jobs:
         else
           echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | xargs)" >> $GITHUB_OUTPUT
         fi
-    - name: Any readonly file modified
+    - name: Enforce
       run: |
         readonly_files=("README.md")
         error=0
