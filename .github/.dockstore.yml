@@ -9,6 +9,7 @@ workflows:
       tags:
         - /.*/
 
+
   - subclass: WDL
     name: EvidenceQC
     primaryDescriptorPath: /wdl/EvidenceQC.wdl
